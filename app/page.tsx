@@ -218,11 +218,7 @@
 
 import React, { useEffect, useState } from "react";
 import ExploreBtn from "@/components/ExploreBtn";
-import BookingBtn from "@/components/BookingBtn";
 import EventCard from "@/components/EventCard";
-import Link from "next/link";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 interface FetchedEvent {
   _id: string;
@@ -245,18 +241,45 @@ interface FetchedEvent {
 export default function Page() {
   const [events, setEvents] = useState<FetchedEvent[]>([]);
 
+  const normalizeStringArray = (value: unknown): string[] => {
+    if (!Array.isArray(value)) return [];
+
+    return value.flatMap((item) => {
+      if (typeof item !== "string") return [];
+
+      const trimmed = item.trim();
+      if (!trimmed) return [];
+
+      const mayBeJson = (trimmed.startsWith("[") && trimmed.endsWith("]")) ||
+        (trimmed.startsWith("\"") && trimmed.endsWith("\""));
+
+      if (!mayBeJson) return [trimmed];
+
+      try {
+        const parsed = JSON.parse(trimmed);
+
+        if (Array.isArray(parsed)) {
+          return parsed.filter((v): v is string => typeof v === "string");
+        }
+
+        return typeof parsed === "string" ? [parsed] : [trimmed];
+      } catch {
+        return [trimmed];
+      }
+    });
+  };
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // const res = await fetch(`${BASE_URL}/api/events`);
         const res = await fetch("/api/events");
         const data = await res.json();
         const eventsData: FetchedEvent[] = data.events || data;
 
         const parsedEvents = eventsData.map(event => ({
           ...event,
-          agenda: event.agenda?.map(a => JSON.parse(a)).flat() || [],
-          tags: event.tags?.map(t => JSON.parse(t)).flat() || [],
+          agenda: normalizeStringArray(event.agenda),
+          tags: normalizeStringArray(event.tags),
         }));
 
         setEvents(parsedEvents);
@@ -272,7 +295,7 @@ export default function Page() {
     <section>
       <h1 className="text-center">
         The Hub for Every Dev <br />
-        Event You Can't Miss
+        Event You Can&apos;t Miss
       </h1>
 
       <p className="text-center mt-5">
@@ -300,5 +323,3 @@ export default function Page() {
     </section>
   );
 }
-
-
