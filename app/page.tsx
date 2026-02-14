@@ -1,15 +1,75 @@
-import React from 'react'
+// import React from 'react'
+// import ExploreBtn from "@/components/ExploreBtn";
+// import { title } from 'process';
+// import EventCard from '@/components/EventCard';
+// import { events } from '@/lib/constants';
+// import { IEvent } from '@/database';
+
+
+// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+// const page = async () => {
+//   // const response = await fetch(`${BASE_URL}/api/events`);
+//   // const { events } = await response.json();
+
+//   const response = await fetch(`${BASE_URL}/api/events`);
+//   const events = await response.json();
+
+
+//   return (
+//     <section>
+//       <h1 className="text-center">The Hub for Every Dev <br/>Event You Can't Miss</h1>
+//       <p className="text-center mt-5">Hackathons, Meetups, and Conferences, All in One Place</p>
+
+//       <ExploreBtn />
+
+//       <div className="mt20 space-y-7">
+//         <h3>Featured Events</h3>
+
+//         <ul className="events">
+//           {events && events.length > 0 && events.map((event:IEvent ) =>(
+//             <ul key={event.title}>
+//               <EventCard {...event}/>
+//             </ul>
+            
+//           ))}
+//         </ul>
+
+//       </div>
+
+//     </section>
+//   )
+// }
+
+// export default page
+
+
+
+
+import React from "react";
 import ExploreBtn from "@/components/ExploreBtn";
-import { title } from 'process';
-import EventCard from '@/components/EventCard';
-import { events } from '@/lib/constants';
+import EventCard from "@/components/EventCard";
+import { IEvent } from "@/database";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const page = () => {
+const Page = async () => {
+  const response = await fetch(`${BASE_URL}/api/events`, {
+    next: { revalidate: 3600 },
+  });
+
+  const events = await response.json();
+
   return (
     <section>
-      <h1 className="text-center">The Hub for Every Dev <br/>Event You Can't Miss</h1>
-      <p className="text-center mt-5">Hackathons, Meetups, and Conferences, All in One Place</p>
+      <h1 className="text-center">
+        The Hub for Every Dev <br />
+        Event You Can't Miss
+      </h1>
+
+      <p className="text-center mt-5">
+        Hackathons, Meetups, and Conferences, All in One Place
+      </p>
 
       <ExploreBtn />
 
@@ -17,18 +77,16 @@ const page = () => {
         <h3>Featured Events</h3>
 
         <ul className="events">
-          {events.map((event) =>(
-            <ul key={event.title}>
-              <EventCard {...event}/>
-            </ul>
-            
-          ))}
+          {events?.length > 0 &&
+            events.map((event: IEvent) => (
+              <li key={event.title}>
+                <EventCard {...event} />
+              </li>
+            ))}
         </ul>
-
       </div>
-
     </section>
-  )
-}
+  );
+};
 
-export default page
+export default Page;
