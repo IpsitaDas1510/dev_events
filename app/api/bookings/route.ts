@@ -35,3 +35,39 @@ export async function POST(req: Request) {
     );
   }
 }
+
+/* -------- DELETE BOOKING -------- */
+export async function DELETE(req: Request) {
+  try {
+    await connectDB();
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "Booking ID required" },
+        { status: 400 }
+      );
+    }
+
+    const deletedBooking = await Booking.findByIdAndDelete(id);
+
+    if (!deletedBooking) {
+      return NextResponse.json(
+        { message: "Booking not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Booking cancelled successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Failed to cancel booking" },
+      { status: 500 }
+    );
+  }
+}
