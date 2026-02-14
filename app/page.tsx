@@ -248,7 +248,8 @@ export default function Page() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/api/events`);
+        // const res = await fetch(`${BASE_URL}/api/events`);
+        const res = await fetch("/api/events");
         const data = await res.json();
         const eventsData: FetchedEvent[] = data.events || data;
 
@@ -288,11 +289,11 @@ export default function Page() {
 
         {events.length === 0 && <p>No events found.</p>}
 
-        <ul className="events">
+        <ul className="events list-none">
           {events.map(event => (
-            <ul key={event._id}>
+            <li key={event._id}>
               <EventCard {...event} />
-            </ul>
+            </li>
           ))}
         </ul>
       </div>
