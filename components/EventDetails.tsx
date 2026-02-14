@@ -34,9 +34,10 @@ const EventTags = ({ tags }: { tags: string[] }) => (
     </div>
 )
 
-const EventDetails = async ({ slug }: { slug: string }) => {
+const EventDetails = async ({ params }: { params: Promise<string> }) => {
     'use cache'
     cacheLife('hours');
+    const slug = await params;
 
     const event = await getEventBySlug(slug);
     if (!event) return notFound();
