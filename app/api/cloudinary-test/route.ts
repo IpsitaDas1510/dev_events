@@ -10,14 +10,13 @@ export async function GET() {
     console.log("Secret exists:", !!process.env.CLOUDINARY_API_SECRET);
 
     const result = await cloudinary.uploader.upload(
-      "https://res.cloudinary.com/demo/image/upload/sample.jpg"
+      "https://res.cloudinary.com/demo/image/upload/sample.jpg",
     );
 
     return NextResponse.json({
       message: "Upload successful",
       url: result.secure_url,
     });
-
   } catch (error: any) {
     console.error("TEST ERROR:", error);
 
@@ -26,7 +25,7 @@ export async function GET() {
         message: "Cloudinary test failed",
         error: error.message,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

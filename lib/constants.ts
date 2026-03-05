@@ -1,10 +1,10 @@
-export type EventItem ={   
-    image: string;
-    title: string;
-    slug: string;
-    location: string;
-    date: string;
-    time: string;
+export type EventItem = {
+  image: string;
+  title: string;
+  slug: string;
+  location: string;
+  date: string;
+  time: string;
 };
 export const events = [
   {

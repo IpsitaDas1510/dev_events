@@ -8,5 +8,5 @@ cloudinary.config({
 
 cloudinary.uploader
   .upload("https://res.cloudinary.com/demo/image/upload/sample.jpg")
-  .then(result => console.log("SUCCESS:", result.secure_url))
-  .catch(err => console.error("ERROR:", err));
+  .then((result) => console.log("SUCCESS:", result.secure_url))
+  .catch((err) => console.error("ERROR:", err));

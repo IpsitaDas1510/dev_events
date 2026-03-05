@@ -83,24 +83,10 @@
 //   }
 // }
 
+import { NextRequest, NextResponse } from "next/server";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-import { NextRequest, NextResponse } from 'next/server';
-
-import connectDB from '@/lib/mongodb';
-import Event from '@/database/event.model';
+import connectDB from "@/lib/mongodb";
+import Event from "@/database/event.model";
 
 type RouteParams = {
   params: {
@@ -110,39 +96,36 @@ type RouteParams = {
 
 export async function GET(
   req: NextRequest,
-  { params }: RouteParams
+  { params }: RouteParams,
 ): Promise<NextResponse> {
   try {
     await connectDB();
 
     const { slug } = params; // ❌ DO NOT await params
 
-    if (!slug || typeof slug !== 'string') {
+    if (!slug || typeof slug !== "string") {
       return NextResponse.json(
-        { message: 'Invalid slug parameter' },
-        { status: 400 }
+        { message: "Invalid slug parameter" },
+        { status: 400 },
       );
     }
 
     const event = await Event.findOne({ slug }).lean();
 
     if (!event) {
-      return NextResponse.json(
-        { message: 'Event not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Event not found" }, { status: 404 });
     }
 
     return NextResponse.json(
-      { message: 'Event fetched successfully', event },
-      { status: 200 }
+      { message: "Event fetched successfully", event },
+      { status: 200 },
     );
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
-      { message: 'Failed to fetch event' },
-      { status: 500 }
+      { message: "Failed to fetch event" },
+      { status: 500 },
     );
   }
 }

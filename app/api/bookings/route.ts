@@ -13,7 +13,7 @@ export async function GET() {
   } catch (error) {
     return NextResponse.json(
       { message: "Error fetching bookings" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -29,10 +29,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(booking, { status: 201 });
   } catch (error) {
-    return NextResponse.json(
-      { message: "Booking failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Booking failed" }, { status: 500 });
   }
 }
 
@@ -47,7 +44,7 @@ export async function DELETE(req: Request) {
     if (!id) {
       return NextResponse.json(
         { message: "Booking ID required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -56,18 +53,18 @@ export async function DELETE(req: Request) {
     if (!deletedBooking) {
       return NextResponse.json(
         { message: "Booking not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     return NextResponse.json(
       { message: "Booking cancelled successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
       { message: "Failed to cancel booking" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

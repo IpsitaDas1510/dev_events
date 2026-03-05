@@ -14,7 +14,6 @@ const CancelBookingButton = ({ bookingId }: { bookingId: string }) => {
 
     console.log("Deleting booking ID:", bookingId);
 
-
     const res = await fetch(`/api/bookings/${bookingId}`, {
       method: "DELETE",
     });

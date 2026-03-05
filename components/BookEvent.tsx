@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { createBooking } from "@/lib/actions/booking.actions";
 
 const BookEvent = ({ eventId, slug }: { eventId: string; slug: string }) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -33,9 +33,7 @@ const BookEvent = ({ eventId, slug }: { eventId: string; slug: string }) => {
   return (
     <div id="book-event">
       {submitted ? (
-        <p className="text-sm text-green-500">
-          Thank you for signing up!
-        </p>
+        <p className="text-sm text-green-500">Thank you for signing up!</p>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>

@@ -75,19 +75,6 @@
 
 // export default Booking;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import { Schema, model, models, Document, Types } from 'mongoose';
 // import Event from './event.model';
 
@@ -168,9 +155,6 @@
 
 // export default Booking;
 
-
-
-
 import { Schema, model, models, Document, Types } from "mongoose";
 import Event from "./event.model";
 
@@ -218,7 +202,7 @@ const BookingSchema = new Schema<IBooking>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 /* ------------------ Pre-save Validation ------------------ */
@@ -233,14 +217,14 @@ BookingSchema.pre("save", async function () {
 
       if (!eventExists) {
         const error = new Error(
-          `Event with ID ${booking.eventId} does not exist`
+          `Event with ID ${booking.eventId} does not exist`,
         );
         error.name = "ValidationError";
         throw error;
       }
     } catch {
       const validationError = new Error(
-        "Invalid Event ID format or database error"
+        "Invalid Event ID format or database error",
       );
       validationError.name = "ValidationError";
       throw validationError;
@@ -263,12 +247,11 @@ BookingSchema.index(
     unique: true,
     partialFilterExpression: { status: "confirmed" },
     name: "uniq_event_email_confirmed",
-  }
+  },
 );
 
 /* ------------------ Export Model ------------------ */
 
-const Booking =
-  models.Booking || model<IBooking>("Booking", BookingSchema);
+const Booking = models.Booking || model<IBooking>("Booking", BookingSchema);
 
 export default Booking;

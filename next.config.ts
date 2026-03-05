@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  typescript:{
+  typescript: {
     ignoreBuildErrors: true,
   },
-  
+
   images: {
     remotePatterns: [
       {
@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
 
   experimental: {
-    cacheComponents: true,
+    cacheComponents: false,
     turbopackFileSystemCacheForDev: true,
   },
 };

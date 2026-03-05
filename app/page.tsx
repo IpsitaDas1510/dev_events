@@ -5,7 +5,6 @@
 // import { events } from '@/lib/constants';
 // import { IEvent } from '@/database';
 
-
 // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 // const page = async () => {
@@ -14,7 +13,6 @@
 
 //   const response = await fetch(`${BASE_URL}/api/events`);
 //   const events = await response.json();
-
 
 //   return (
 //     <section>
@@ -31,7 +29,7 @@
 //             <ul key={event.title}>
 //               <EventCard {...event}/>
 //             </ul>
-            
+
 //           ))}
 //         </ul>
 
@@ -42,9 +40,6 @@
 // }
 
 // export default page
-
-
-
 
 // import React from "react";
 // import ExploreBtn from "@/components/ExploreBtn";
@@ -90,11 +85,6 @@
 // };
 
 // export default Page;
-
-
-
-
-
 
 // import React from "react";
 // import ExploreBtn from "@/components/ExploreBtn";
@@ -144,8 +134,6 @@
 // };
 
 // export default Page;
-
-
 
 // "use client";
 
@@ -210,9 +198,6 @@
 //     </section>
 //   );
 // }
-
-
-
 
 // "use client";
 
@@ -306,9 +291,6 @@
 //   {/* <ExploreBtn /> */}
 //   <BookingBtn/>
 
-
-
-
 //       <div className="mt20 space-y-7">
 //         <h3>Featured Events</h3>
 
@@ -325,8 +307,6 @@
 //     </section>
 //   );
 // }
-
-
 
 "use client";
 
@@ -366,7 +346,8 @@ export default function Page() {
       if (!trimmed) return [];
       try {
         const parsed = JSON.parse(trimmed);
-        if (Array.isArray(parsed)) return parsed.filter((v): v is string => typeof v === "string");
+        if (Array.isArray(parsed))
+          return parsed.filter((v): v is string => typeof v === "string");
         if (typeof parsed === "string") return [parsed];
       } catch {}
       return [trimmed];
@@ -396,38 +377,41 @@ export default function Page() {
   // }, []);
 
   useEffect(() => {
-  const fetchEvents = async () => {
-    try {
-      const res = await fetch("/api/events");
-      const data = await res.json();
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch("/api/events");
+        const data = await res.json();
 
-      // ✅ Ensure we always have an array
-      const eventsArray: FetchedEvent[] = Array.isArray(data.events)
-        ? data.events
-        : [];
+        // ✅ Ensure we always have an array
+        const eventsArray: FetchedEvent[] = Array.isArray(data.events)
+          ? data.events
+          : [];
 
-      const parsedEvents = eventsArray.map(event => ({
-        ...event,
-        agenda: normalizeStringArray(event.agenda),
-        tags: normalizeStringArray(event.tags),
-      }));
+        const parsedEvents = eventsArray.map((event) => ({
+          ...event,
+          agenda: normalizeStringArray(event.agenda),
+          tags: normalizeStringArray(event.tags),
+        }));
 
-      setEvents(parsedEvents);
-    } catch (err) {
-      console.error("Error fetching events:", err);
-      setEvents([]); // safe fallback
-    }
-  };
+        setEvents(parsedEvents);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+        setEvents([]); // safe fallback
+      }
+    };
 
-  fetchEvents();
-}, []);
+    fetchEvents();
+  }, []);
 
   // Filter and sort events based on search and sort order
   const filteredEvents = events
-    .filter(event => 
-      event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      event.venue.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      event.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter(
+      (event) =>
+        event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        event.venue.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        event.tags.some((tag) =>
+          tag.toLowerCase().includes(searchTerm.toLowerCase()),
+        ),
     )
     .sort((a, b) => {
       const dateA = new Date(a.date).getTime();
@@ -478,7 +462,7 @@ export default function Page() {
         {filteredEvents.length === 0 && <p>No events found.</p>}
 
         <ul className="events list-none space-y-6">
-          {filteredEvents.map(event => (
+          {filteredEvents.map((event) => (
             <li key={event._id}>
               <EventCard {...event} />
             </li>
