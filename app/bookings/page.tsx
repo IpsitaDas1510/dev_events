@@ -1,11 +1,24 @@
-export const dynamic = "force-dynamic";
+// import { Suspense } from "react";
+// import BookingsList from "./BookingsList";
+
+// export default function BookingsPage() {
+//   return (
+//     <div className="p-10">
+//       <h1 className="text-2xl font-bold mb-6">All Bookings</h1>
+
+//       <Suspense fallback={<p>Loading bookings...</p>}>
+//         <BookingsList />
+//       </Suspense>
+//     </div>
+//   );
+// }
 import { Suspense } from "react";
 import BookingsList from "./BookingsList";
 
 export default function BookingsPage() {
   return (
-    <div className="p-10">
-      <h1 className="text-2xl font-bold mb-6">All Bookings</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Bookings</h1>
 
       <Suspense fallback={<p>Loading bookings...</p>}>
         <BookingsList />

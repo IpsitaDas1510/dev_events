@@ -16,8 +16,9 @@ const nextConfig: NextConfig = {
 
   reactCompiler: true,
 
+  cacheComponents: true, // ✅ move it here
+
   experimental: {
-    cacheComponents: false,
     turbopackFileSystemCacheForDev: true,
   },
 };
