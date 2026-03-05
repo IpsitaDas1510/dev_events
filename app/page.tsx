@@ -373,27 +373,54 @@ export default function Page() {
     });
   };
 
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     try {
+  //       const res = await fetch("/api/events");
+  //       const data = await res.json();
+  //       const eventsData: FetchedEvent[] = data.events || data;
+
+  //       const parsedEvents = eventsData.map(event => ({
+  //         ...event,
+  //         agenda: normalizeStringArray(event.agenda),
+  //         tags: normalizeStringArray(event.tags),
+  //       }));
+
+  //       setEvents(parsedEvents);
+  //     } catch (err) {
+  //       console.error("Error fetching events:", err);
+  //     }
+  //   };
+
+  //   fetchEvents();
+  // }, []);
+
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await fetch("/api/events");
-        const data = await res.json();
-        const eventsData: FetchedEvent[] = data.events || data;
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch("/api/events");
+      const data = await res.json();
 
-        const parsedEvents = eventsData.map(event => ({
-          ...event,
-          agenda: normalizeStringArray(event.agenda),
-          tags: normalizeStringArray(event.tags),
-        }));
+      // ✅ Ensure we always have an array
+      const eventsArray: FetchedEvent[] = Array.isArray(data.events)
+        ? data.events
+        : [];
 
-        setEvents(parsedEvents);
-      } catch (err) {
-        console.error("Error fetching events:", err);
-      }
-    };
+      const parsedEvents = eventsArray.map(event => ({
+        ...event,
+        agenda: normalizeStringArray(event.agenda),
+        tags: normalizeStringArray(event.tags),
+      }));
 
-    fetchEvents();
-  }, []);
+      setEvents(parsedEvents);
+    } catch (err) {
+      console.error("Error fetching events:", err);
+      setEvents([]); // safe fallback
+    }
+  };
+
+  fetchEvents();
+}, []);
 
   // Filter and sort events based on search and sort order
   const filteredEvents = events
